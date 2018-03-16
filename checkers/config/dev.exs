@@ -51,8 +51,8 @@ config :phoenix, :stacktrace_depth, 20
 # Configure your database
 config :checkers, Checkers.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  username: "checkers",
+  password: ";ZNh$72d]/A:",
   database: "checkers_dev",
   hostname: "localhost",
   pool_size: 10
