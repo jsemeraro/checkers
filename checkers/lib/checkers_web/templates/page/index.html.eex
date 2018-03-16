@@ -1,6 +1,10 @@
 <div class="row">
   <div class="col">
-    <h1>page/index</h1>
-    <p>TODO: Checkers</p>
+    <h1 id="index-page">Join a Game</h1>
+    <form>
+      Enter game name:<br><br>
+      <input type="text" id="name" name="name"><br><br>
+      <input type="submit" onclick="window.location = window.location + 'game/' + document.getElementById('name').value; return false;" value="Join">
+    </form>
   </div>
 </div>
