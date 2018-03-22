@@ -27,30 +27,12 @@ class Checkers extends React.Component {
 
   render() {
       let score = this.state.score;
-      let board = _.map(this.state.board, (square, ii) => {
-        return <Square square={square}/>;
-      });
-
-      let firstFour = board.slice(0, 4).map(square => {
-        return <div className="col">{square}</div>
-      });
 
 
     return (
-      <body>
         <div className="row">
           <h3>Score: {score}</h3>
         </div>
-        <div className="row">
-          {firstFour}
-        </div>
-      </body>
     );
   }
-}
-
-function Square(props) {
-  let square = props.square;
-
-  return <div className="square"></div>
 }
