@@ -65,6 +65,7 @@ exports.config = {
 
   npm: {
     globals: {
+      _: 'underscore',
       $: 'jquery'
     }
   }
