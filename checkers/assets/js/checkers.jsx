@@ -32,9 +32,18 @@ class Checkers extends React.Component {
 
       for(var i in board) {
         for(var j in board) {
-          board_list.push(<h1>i</h1>);
+          board_list.push(<td>i</td>); //TODO make this a square instead (which will make it more table like hopefully)
         }
       }
+
+      let first_row = board_list.slice(0, 8);
+      let second_row = board_list.slice(8, 16);
+      let third_row = board_list.slice(16, 24);
+      let fourth_row = board_list.slice(24, 32);
+      let fifth_row = board_list.slice(32, 40);
+      let sixth_row = board_list.slice(40, 48);
+      let seventh_row = board_list.slice(48, 56);
+      let eighth_row = board_list.slice(56, 64);
 
     return (
       <body>
@@ -42,7 +51,18 @@ class Checkers extends React.Component {
           <h3>Score: {score}</h3>
         </div>
         <div>
-          { board_list }
+          <table>
+            <tbody>
+              <tr>{ first_row }</tr>
+              <tr>{ second_row }</tr>
+              <tr>{ third_row }</tr>
+              <tr>{ fourth_row }</tr>
+              <tr>{ fifth_row }</tr>
+              <tr>{ sixth_row }</tr>
+              <tr>{ seventh_row }</tr>
+              <tr>{ eighth_row }</tr>
+            </tbody>
+          </table>
         </div>
       </body>
     );
