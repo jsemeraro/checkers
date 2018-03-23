@@ -1,0 +1,16 @@
+TODO
+
+figure out backend - clean that up a bit
+    change board to be checker based for the checkers
+
+front end responsive and move checkers around
+    checkers to be buttons have them listen for the next click
+    backend result update board - score
+
+implement checker class
+    checker belongs to player?
+
+how do we represent players
+    add to a user_id list for the game - assign user to player1/2 everyone else observes/restricted
+
+the logic for game
