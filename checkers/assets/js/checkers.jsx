@@ -27,12 +27,30 @@ class Checkers extends React.Component {
 
   render() {
       let score = this.state.score;
+      let board = this.state.board;
+      let board_list = [];
 
+      for(var i in board) {
+        for(var j in board) {
+          board_list.push(<h1>i</h1>);
+        }
+      }
 
     return (
+      <body>
         <div className="row">
           <h3>Score: {score}</h3>
         </div>
+        <div>
+          { board_list }
+        </div>
+      </body>
     );
   }
+}
+
+function Square() {
+  let square = props.square;
+
+
 }
