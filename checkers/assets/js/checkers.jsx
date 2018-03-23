@@ -33,7 +33,7 @@ class Checkers extends React.Component {
       for(var i in board) {
         for(var j in board) {
           //console.log(board[i][j]);
-          board_list.push(<Square square={board[i][j]} id={j}></Square>); //TODO make this a square instead (which will make it more table like hopefully)
+          board_list.push(<Square square={board[i][j]} x={i} y={j}></Square>); //TODO make this a square instead (which will make it more table like hopefully)
         }
       }
 
@@ -72,19 +72,18 @@ class Checkers extends React.Component {
 
 function Square(props) {
   let square = props.square;
-  let id = props.id;
+  let x = props.x;
+  let y = props.y;
 
-  if(id % 2 == 0) {
-    if(square.checker) {
-      return <td><div id="checker-square">{id}</div></td>;
+    if (square.checker) {
+      return <td><div id="checker-square">{x}{y}</div></td>; //TODO use buttons as checkers?
+    }
+    if (((x%2 == 0) && (y%2 == 0)) || (!(x%2 == 0) && !(y%2 == 0))) {
+      return <td><div id="tan-square">{x}{y}</div></td>;
     }
     else {
-      return <td><div id="brown-square">{id}</div></td>;
+      return <td><div id="brown-square">{x}{y}</div></td>;
     }
-  }
-  else {
-    return <td><div id="tan-square">{id}</div></td>;
-  }
 
   // TODO if the square has a key modulo 2 == 0, make it a brown (or tan idk) square, else make it the other color
   // TODO if there is a checker on the square, make it a checker square?
