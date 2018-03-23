@@ -12,7 +12,8 @@ class Checkers extends React.Component {
     this.channel = props.channel;
     this.state = {
       board: {},
-      score: 0,
+      score_one: 0,
+      score_two: 0
     };
 
     this.channel.join()
@@ -26,7 +27,8 @@ class Checkers extends React.Component {
   }
 
   render() {
-      let score = this.state.score;
+      let score_one = this.state.score_one;
+      let score_two = this.state.score_two;
       let board = this.state.board;
       let board_list = [];
 
@@ -49,7 +51,8 @@ class Checkers extends React.Component {
     return (
       <body>
         <div className="row">
-          <h3>Score: {score}</h3>
+          <p>Player 1 Score: {score_one}</p>
+          <p>Player 2 Score: {score_two}</p>
         </div>
         <div>
           <table>
@@ -84,8 +87,4 @@ function Square(props) {
     else {
       return <td><div id="brown-square">{x}{y}</div></td>;
     }
-
-  // TODO if the square has a key modulo 2 == 0, make it a brown (or tan idk) square, else make it the other color
-  // TODO if there is a checker on the square, make it a checker square?
-
 }
