@@ -1,2 +1,16 @@
 /* This file is for your main application scss. */
 @import "bootstrap";
+
+#brown-square {
+  height: 15px;
+  width: 15px;
+  background: brown;
+  padding: 0px;
+}
+
+#tan-square {
+  height: 15px;
+  width: 15px;
+  background: tan;
+  padding: 0px;
+}

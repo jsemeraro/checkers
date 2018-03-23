@@ -32,7 +32,8 @@ class Checkers extends React.Component {
 
       for(var i in board) {
         for(var j in board) {
-          board_list.push(<td>i</td>); //TODO make this a square instead (which will make it more table like hopefully)
+          //console.log(board[i][j]);
+          board_list.push(<Square square={board[i][j]} id={j}></Square>); //TODO make this a square instead (which will make it more table like hopefully)
         }
       }
 
@@ -69,8 +70,23 @@ class Checkers extends React.Component {
   }
 }
 
-function Square() {
+function Square(props) {
   let square = props.square;
+  let id = props.id;
 
+  if(id % 2 == 0) {
+    if(square.checker) {
+      return <td><div id="checker-square">{id}</div></td>;
+    }
+    else {
+      return <td><div id="brown-square">{id}</div></td>;
+    }
+  }
+  else {
+    return <td><div id="tan-square">{id}</div></td>;
+  }
+
+  // TODO if the square has a key modulo 2 == 0, make it a brown (or tan idk) square, else make it the other color
+  // TODO if there is a checker on the square, make it a checker square?
 
 }
