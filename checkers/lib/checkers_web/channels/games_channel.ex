@@ -5,11 +5,12 @@ defmodule CheckersWeb.GamesChannel do
 
   def join("games:" <> name, payload, socket) do
     if authorized?(payload) do
-      game = Checkers.GameBackup.load(name) || Game.new()
+      game = Checkers.GameRegistry.get_agent(name)
       socket = socket
       |> assign(:game, game)
       |> assign(:name, name)
-      {:ok, %{"join" => name, "game" => Game.client_view(game)}, socket}
+      |> assign(:player, Checkers.Game.add_user(game))
+      {:ok, %{"join" => name, "game" => Game.client_view(game), "player" => socket.assign[:player]}, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
