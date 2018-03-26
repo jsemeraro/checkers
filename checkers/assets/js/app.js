@@ -18,17 +18,14 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-// import socket from "./socket"
-
 import socket from "./socket";
 
-import game_init from "./checkers";
+import init_host from "./host";
 
 function start() {
   let root = document.getElementById('root');
   if (root) {
-    let channel = socket.channel("games:" + window.gameName, {});
-    game_init(root, channel);
+    init_host(root);
   }
 
   /*if (document.getElementById('index-page')) {

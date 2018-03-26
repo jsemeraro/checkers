@@ -1,9 +1,9 @@
 <div class="row">
   <div class="col">
     <h1>Checkers: <%= @game %></h1>
-    <script>
+<!--    <script> 
       window.gameName = "<%= @game %>";
-    </script>
+    </script> -->
     <div id="root">
       <p>App not loaded...</p>
     </div>

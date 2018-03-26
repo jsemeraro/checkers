@@ -45,7 +45,8 @@ defmodule Checkers.Game do
   end
 
   # TODO: write this function
-  defp valid_move(agent, origin_data, dest_data) do
+  defp valid_move(agent, origin_data, dest_data, player) do
+    board = Agent.get(agent, fn (state) -> Map.get(state, :board) end)
     # do validation
     # - check the origin data to be of correct color for player
     # - check the tile we are clicking is empty
@@ -58,13 +59,13 @@ defmodule Checkers.Game do
 
   # from: (row, col)
   # to:   (row, col)
-  def move_checker(agent, origin, dest) do
+  def move_checker(agent, origin, dest, player) do
     # get checker at origin location
     board = Agent.get(agent, fn(state) -> Map.get(state, :board) end )
     origin_data = get_tile_data(board, origin)
     dest_data = get_tile_data(board, dest)
 
-    valid = valid_move(agent, origin_data, dest_data)
+    valid = valid_move(agent, origin_data, dest_data, player)
     # if valid, move tile
     if valid do
       update_board(agent, origin, dest)
