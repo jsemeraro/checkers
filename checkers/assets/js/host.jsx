@@ -12,17 +12,16 @@ export default function init_host(root) {
 class Host extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { inGame: false };
+        this.state = { inGame: false, channel: null };
     }
 
-    gameCreated(gameName) {
-        this.setState({ inGame: gameName });
+    gameCreated(gameName, channel) {
+        this.setState({ inGame: gameName, channel: channel });
     }
 
     render() {
-        console.log(this.state.inGame);
         if (this.state.inGame) {
-            return (<Checkers name={this.state.inGame} />);
+            return (<Checkers name={this.state.inGame} channel={this.state.channel} />);
         } else {
             return (<Login createdGame={this.gameCreated.bind(this)} />);
         }

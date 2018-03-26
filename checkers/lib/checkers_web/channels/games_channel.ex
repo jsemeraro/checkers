@@ -10,10 +10,16 @@ defmodule CheckersWeb.GamesChannel do
       |> assign(:game, game)
       |> assign(:name, name)
       |> assign(:player, Checkers.Game.add_user(game))
-      {:ok, %{"join" => name, "game" => Game.client_view(game), "player" => socket.assign[:player]}, socket}
+      IO.inspect(socket.assigns)
+      {:ok, %{"join" => name, "game" => Game.client_view(game), "player" => socket.assigns[:player]}, socket}
     else
       {:error, %{reason: "unauthorized"}}
     end
+  end
+
+  def handle_in("request_view", %{}, socket) do
+    game = Game.client_view(socket.assigns[:game])
+    {:reply, {:ok, %{ "game" => game, "player" => socket.assigns[:player] }}, socket}
   end
 
   # Channels can be used in a request/response fashion

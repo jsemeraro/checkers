@@ -14,14 +14,11 @@ export default class Login extends React.Component {
     }
 
     create_game() {
-        let channel = Socket.channel("login", {});
+        let channel = Socket.channel(`games:${this.state.name}`, {});
         channel.join()
         .receive("ok", resp => { 
-            channel.push("create_game", this.state).receive("ok", (response)=>{
-                console.log(response);
-                this.props.createdGame(this.state.name);
-            })      
             console.log("Joined successfully", resp); 
+            this.props.createdGame(this.state.name, channel);
         })
         .receive("error", resp => { console.log("Unable to join", resp); });
     }

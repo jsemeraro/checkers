@@ -27,7 +27,8 @@ defmodule Checkers.GameRegistry do
   def get_agent(name) do
     lookups = Registry.lookup(Checkers.GameRegistry, name)
     if (Enum.empty?(lookups)) do
-      {:error, :no_game_found}
+      {:ok, pid} = start(name)
+      pid
     else
       elem(List.first(lookups), 0)
     end
