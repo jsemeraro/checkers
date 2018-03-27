@@ -8,23 +8,39 @@ p {
   padding: 1em;
 }
 
-#brown-square {
-  height: 25px;
-  width: 25px;
-  background: brown;
+.square {
+  height: 8vh;
+  width: 8vh;
   border: 0px;
+  &.tan{
+    background-color: tan;
+  }
+  &.brown {
+    background-color: rgb(71, 26, 26);
+  }
 }
 
-#tan-square {
-  height: 25px;
-  width: 25px;
-  background: tan;
-  border: 0px;
+.board-layout {
+  text-align: center;
 }
 
-#checker-square {
-  height: 25px;
-  width: 25px;
-  background: red;
-  border: 0px;
+.checker {
+  border-radius: 100%;
+  align-content: center;
+  width: 7.8vh;
+  height: 7.8vh;
+  display: block;
+  &:hover {
+    box-shadow: 2px 2px 4px grey;
+  }
+  
+  &.red {
+    background-color: red;
+  }
+  &.black {
+    background-color: black;
+  }
+  &.selected {
+    border: 3px solid white;
+  }
 }

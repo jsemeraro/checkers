@@ -95,7 +95,7 @@ defmodule Checkers.Game do
   defp det_checker(row_num) do
     cond do
       row_num < 3 -> :red
-      row_num > 5 -> :black
+      row_num > 4 -> :black
       true        -> :none
     end
   end
