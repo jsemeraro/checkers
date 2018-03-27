@@ -18,6 +18,13 @@ p {
   &.brown {
     background-color: rgb(71, 26, 26);
   }
+  &.possible{
+    background-color: rgb(170, 170, 247);
+    cursor: pointer;
+    &:hover{
+      opacity: .7 ;
+    }
+  }
 }
 
 .board-layout {
@@ -30,10 +37,10 @@ p {
   width: 7.8vh;
   height: 7.8vh;
   display: block;
+  cursor: pointer;
   &:hover {
     box-shadow: 2px 2px 4px grey;
   }
-  
   &.red {
     background-color: red;
   }

@@ -24,12 +24,12 @@ defmodule CheckersWeb.GamesChannel do
 
   # Channels can be used in a request/response fashion
   # by sending replies to requests from the client
-  def handle_in("move_checker", %{"origin" => origin, "dest" => dest}, socket) do
-    game = Game.client_view(socket.assigns[:game])
+  def handle_in("move_checker", %{"origin" => [orX, orY], "dest" => [destX, destY]}, socket) do
     player = socket.assigns[:player]
 
-    Game.move_checker(game, origin, dest, player)
-
+    Game.move_checker(socket.assigns[:game], {orX, orY}, {destX, destY}, player)
+    game = Game.client_view(socket.assigns[:game])
+    broadcast!(socket, "view", %{ "game" => game, "player" => socket.assigns[:player] })
     {:reply, {:ok, %{ "game" => game}}, socket}
   end
 

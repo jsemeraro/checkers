@@ -6,28 +6,92 @@ import socket from "./socket";
 export default class Checkers extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {game: null, selected: [-1, -1]};
+    this.state = {game: null, selected: [-1, -1], playerColor: null, possibleLocations: []};
     this.channel = this.props.channel;
+    this.channel.on("view", this.gotView.bind(this));
     this.name = this.props.name;
     this.channel.push("request_view").receive("ok", this.gotView.bind(this))
   }
 
   // game = {board: {}, player: color}
-  gotView({game, playerColor}) {
+  gotView({game, player}) {
     console.log(game)
-    this.setState({game: game});
+    this.setState({game: game, playerColor: player});
     console.log("New view", game.board);
   }
 
   checkerSelected(location) {
-    this.setState({selected: location})
     let board = this.state.game.board;
-    let [x, y] = location;
+    let x = parseInt(location[0]);
+    let y = parseInt(location[1]);
     let currLocation = board[x][y];
+    let possLocations = [];
 
+    if (currLocation.color != this.state.playerColor) {
+      return (null);
+    } else {
+      let newLeftY = y-1;
+      let newRightY = y+1;
 
+      // black moves up: X decrements
+      if (this.state.playerColor == "black" && currLocation.color == "black") {
+        this.setState({selected: location});
+        let newX = x-1;
+        console.log(board[newX][newLeftY]);
+        if (newX != -1) {
+          if (newLeftY != -1 && (board[newX][newLeftY].color != "black")) {
+            let leftColor = board[newX][newLeftY].color;
+            if (leftColor == "none") {
+              possLocations.push([newX, newLeftY]);
+            } else if ((leftColor == "red") && (newLeftY-1 != -1) && (newX-1 != -1) && (board[newX-1][newLeftY-1].color == "none")) {
+              possLocations.push([newX-1, newLeftY-1]);
+            }
+          } 
+          if ((newRightY != 8) && (board[newX][newRightY].color != "black")) {
+            let rightColor = board[newX][newRightY].color;
+            if (rightColor == "none") {
+              possLocations.push([newX, newRightY]);
+            } else if ((rightColor == "red") && (newRightY+1 != 8) && (newX-1 != -1) && (board[newX-1][newRightY+1].color == "none")) {
+              possLocations.push([newX-1, newRightY+1]);
+            }
+          }
+          this.setState({possibleLocations: possLocations});
+        }
+      // red moves down: X increments
+      } else if (this.state.playerColor == "red" && currLocation.color == "red") {
+        this.setState({selected: location});
+        let newX = x+1;
 
-    // this.channel.push("move_checker").receive("ok", this.gotView.bind(this))
+        if (newX != 8) {
+          if ((newLeftY != -1) && (board[newX][newLeftY].color != "red")) {
+            let leftColor = board[newX][newLeftY].color;
+            if (leftColor == "none") {
+              possLocations.push([newX, newLeftY]);
+            } else if ((leftColor == "red") && (newLeftY-1 != -1) && (newX+1 != 8) && (board[newX+1][newLeftY-1].color == "none")) {
+              possLocations.push([newX-1, newLeftY-1]);
+            }
+          }
+          if ((newRightY != 8) && (board[newX][newRightY].color != "red")) {
+            let rightColor = board[newX][newRightY].color;
+            if (rightColor == "none") {
+              possLocations.push([newX, newRightY]);
+            } else if ((rightColor == "red") && (newRightY+1 != 8) && (newX+1 != 8) && (board[newX+1][newRightY+1].color == "none")) {
+              possLocations.push([newX+1, newRightY+1]);
+            }
+          }
+          this.setState({possibleLocations: possLocations});
+        }
+      }
+    }
+  }
+
+  tileSelected(moveToTile) {
+    let [selX, selY] = this.state.selected;
+    let [tileX, tileY] = moveToTile;
+    [selX, selY] = [parseInt(selX), parseInt(selY)];
+    [tileX, tileY] = [parseInt(tileX), parseInt(tileY)];
+    this.channel.push("move_checker", {origin: [selX, selY], dest: [tileX, tileY]});
+    this.setState({possibleLocations: []})
   }
 
   render() {
@@ -40,7 +104,8 @@ export default class Checkers extends React.Component {
         let cols = [];
         for(let y in board[x]) {
           let bool = (x == this.state.selected[0]) && (y == this.state.selected[1]);
-          cols.push(<Square place={board[x][y]} selected={bool} location={[x,y]} whenClicked={this.checkerSelected.bind(this)} />);
+          let possible = this.state.possibleLocations.some(([lx,ly]) => lx == x && ly == y);
+          cols.push(<Square place={board[x][y]} selected={bool} possible={possible} location={[x,y]} tileClicked={this.tileSelected.bind(this)} checkerClicked={this.checkerSelected.bind(this)} />);
         }
         rowsArr.push(<tr>{cols}</tr>);
       }
@@ -64,14 +129,18 @@ export default class Checkers extends React.Component {
 
 function Square(props) {
   let tile = props.place.tile;
-  let location = props.location;
+  let [x, y] = props.location;
   let selected = props.selected;
-  let selectedChecker = props.whenClicked;
+  let selectedChecker = props.checkerClicked;
+  let possible = props.possible;
+  let selectedTile = props.tileClicked;
 
   if (tile == "illegal") {
-    return <td><div class="square brown"></div></td>;
+    return <td><div className="square brown"></div></td>;
+  } else if (possible) {
+    return <td><div className="square possible" onClick={() => selectedTile(props.location)} ></div></td>;
   } else {
-    return <td><div class="square tan">{renderChecker(props.place, location, selectedChecker, selected)}</div></td>;
+    return <td><div className="square tan">{renderChecker(props.place, props.location, selectedChecker, selected)}</div></td>;
   }
 }
 
