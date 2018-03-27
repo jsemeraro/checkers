@@ -1,3 +1,4 @@
+# referenced Julia's Memory.GamesChannel
 defmodule CheckersWeb.GamesChannel do
   use CheckersWeb, :channel
 
@@ -29,8 +30,8 @@ defmodule CheckersWeb.GamesChannel do
 
     Game.move_checker(socket.assigns[:game], {orX, orY}, {destX, destY}, player)
     game = Game.client_view(socket.assigns[:game])
-    broadcast!(socket, "view", %{ "game" => game, "player" => socket.assigns[:player] })
-    {:reply, {:ok, %{ "game" => game}}, socket}
+    broadcast!(socket, "view", %{ "game" => game })
+    {:reply, {:ok, %{ "game" => game }}, socket}
   end
 
   #TODO Remember to save state after a handle_in

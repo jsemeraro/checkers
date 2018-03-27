@@ -16,7 +16,11 @@ export default class Checkers extends React.Component {
   // game = {board: {}, player: color}
   gotView({game, player}) {
     console.log(game)
-    this.setState({game: game, playerColor: player});
+    this.setState({game: game});
+    if(player){
+      console.log(player);
+      this.setState({playerColor: player});
+    }
     console.log("New view", game.board);
   }
 
@@ -32,6 +36,7 @@ export default class Checkers extends React.Component {
     } else {
       let newLeftY = y-1;
       let newRightY = y+1;
+      
 
       // black moves up: X decrements
       if (this.state.playerColor == "black" && currLocation.color == "black") {
@@ -90,8 +95,9 @@ export default class Checkers extends React.Component {
     let [tileX, tileY] = moveToTile;
     [selX, selY] = [parseInt(selX), parseInt(selY)];
     [tileX, tileY] = [parseInt(tileX), parseInt(tileY)];
-    this.channel.push("move_checker", {origin: [selX, selY], dest: [tileX, tileY]});
-    this.setState({possibleLocations: []})
+    this.channel.push("move_checker", {origin: [selX, selY], dest: [tileX, tileY]}).receive("ok", (game) => {
+      this.setState({possibleLocations: []});
+    });
   }
 
   render() {

@@ -1,4 +1,4 @@
-# used from Julia's Memory GameRegistry
+# referenced Julia's Memory.GameRegistry
 defmodule Checkers.GameRegistry do
   use Agent
 
