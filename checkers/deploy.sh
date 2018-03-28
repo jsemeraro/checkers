@@ -32,11 +32,11 @@ if [ -d ~/www/checkers ]; then
 fi
 
 mkdir -p ~/www/checkers
-REL_TAR=~/src/checkers/_build/prod/rel/checkers/releases/0.0.1/checkers.tar.gz
+REL_TAR=~/src/checkers/checkers/_build/prod/rel/checkers/releases/0.0.1/checkers.tar.gz
 (cd ~/www/checkers && tar xzvf $REL_TAR)
 
 crontab - <<CRONTAB
-@reboot bash /home/checkers/src/checkers/start.sh
+@reboot bash /home/checkers/src/checkers/checkers/start.sh
 CRONTAB
 
 #. start.sh
