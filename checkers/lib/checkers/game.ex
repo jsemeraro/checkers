@@ -173,17 +173,25 @@ defmodule Checkers.Game do
           Map.put(state, :player1, %{color: :red, score: player1_score+1})
         else
           player2_score = player2 |> Map.get(:score)
-          Map.put(state, :player2, %{color: :red, score: player2_score+1})
+          Map.put(state, :player2, %{color: :black, score: player2_score+1})
         end
       end)
 
       IO.inspect dest
       possible_moves = get_poss_locations(board, dest)
-      if Enum.empty?(possible_moves) do
-        if (Agent.get(agent, fn(state) -> Map.get(state, :turn) end) == :red) do
-          Agent.update(agent, fn(state) -> Map.put(state, :turn, :black) end)
-        else
-          Agent.update(agent, fn(state) -> Map.put(state, :turn, :red) end)
+      keep_turn? = Enum.reduce(possible_moves, 0, fn({k, j}, acc) ->
+        if Map.get(board, k) |> Map.get(j) |> Map.get(:color) != player and Map.get(board, k) |> Map.get(j) |> Map.get(:color) != :none do
+          acc + 1
+        end
+      end)
+      IO.inspect(keep_turn?)
+      if keep_turn? == 0 do
+        if Enum.empty?(possible_moves) do
+          if (Agent.get(agent, fn(state) -> Map.get(state, :turn) end) == :red) do
+            Agent.update(agent, fn(state) -> Map.put(state, :turn, :black) end)
+          else
+            Agent.update(agent, fn(state) -> Map.put(state, :turn, :red) end)
+          end
         end
       end
 

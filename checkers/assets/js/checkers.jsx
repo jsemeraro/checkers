@@ -31,7 +31,7 @@ export default class Checkers extends React.Component {
     let currLocation = board[x][y];
     let possLocations = [];
 
-    if (currLocation.color != this.state.playerColor) {
+    if (currLocation.color != this.state.playerColor || this.state.game.turn != this.state.playerColor) {
       return (null);
     } else {
       let newLeftY = y-1;
@@ -74,7 +74,7 @@ export default class Checkers extends React.Component {
             if (leftColor == "none") {
               possLocations.push([newX, newLeftY]);
             } else if ((leftColor == "black") && (newLeftY-1 != -1) && (newX+1 != 8) && (board[newX+1][newLeftY-1].color == "none")) {
-              possLocations.push([newX-1, newLeftY-1]);
+              possLocations.push([newX+1, newLeftY-1]);
             }
           }
           if ((newRightY != 8) && (board[newX][newRightY].color != "red")) {
@@ -117,15 +117,37 @@ export default class Checkers extends React.Component {
         rowsArr.push(<tr>{cols}</tr>);
       }
 
+      let score2 = 0;
+      // console.log(this.state.game.player2.score);
+      if (this.state.game.player2 != null) {
+        score2 = this.state.game.player2.score;
+      }
+
       console.log(rowsArr);
+      let player1 = "Player 1";
+      let player2 = "Player 2";
+      if (this.state.game.turn == "red") {
+        player1 = <b>Player 1</b>;
+      } else {
+        player2 = <b>Player 2</b>;
+      }
 
       return (
-        <div className="board-layout">
-          <table>
-            <tbody>
-              {rowsArr}
-            </tbody>
-          </table>
+        <div className="game">
+          <h1 className="name text-center">
+            Game: {this.name}
+          </h1>
+          <h2 className="scores text-center">
+            <span className="player1 col-6">{player1}: {this.state.game.player1.score}</span>
+            <span className="player2 col-6">{player2}: {score2}</span>
+          </h2>
+          <div className="board-layout col-12">
+            <table className="text-center">
+              <tbody>
+                {rowsArr}
+              </tbody>
+            </table>
+          </div>
         </div>
       );
     } else {
