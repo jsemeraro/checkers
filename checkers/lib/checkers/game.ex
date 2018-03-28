@@ -17,7 +17,8 @@ defmodule Checkers.Game do
     %{
       board: Map.get(state, :board),
       player1: Map.get(state, :player1),
-      player2: Map.get(state, :player2)
+      player2: Map.get(state, :player2),
+      turn: Map.get(state, :turn)
     }
   end
 
@@ -201,10 +202,6 @@ defmodule Checkers.Game do
         Agent.update(agent, fn(state) -> Map.put(state, :turn, :red) end)
       end
     end
-    # next_moves = get_poss_locations(board, dest)
-
-    # if Enum.empty?(next_moves) do
-    # end
   end
 
 

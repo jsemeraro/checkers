@@ -66,13 +66,14 @@ export default class Checkers extends React.Component {
       } else if (this.state.playerColor == "red" && currLocation.color == "red") {
         this.setState({selected: location});
         let newX = x+1;
-
+        console.log(board[newX][newLeftY]);
+        console.log(board[newX][newRightY]);
         if (newX != 8) {
           if ((newLeftY != -1) && (board[newX][newLeftY].color != "red")) {
             let leftColor = board[newX][newLeftY].color;
             if (leftColor == "none") {
               possLocations.push([newX, newLeftY]);
-            } else if ((leftColor == "red") && (newLeftY-1 != -1) && (newX+1 != 8) && (board[newX+1][newLeftY-1].color == "none")) {
+            } else if ((leftColor == "black") && (newLeftY-1 != -1) && (newX+1 != 8) && (board[newX+1][newLeftY-1].color == "none")) {
               possLocations.push([newX-1, newLeftY-1]);
             }
           }
@@ -80,7 +81,7 @@ export default class Checkers extends React.Component {
             let rightColor = board[newX][newRightY].color;
             if (rightColor == "none") {
               possLocations.push([newX, newRightY]);
-            } else if ((rightColor == "red") && (newRightY+1 != 8) && (newX+1 != 8) && (board[newX+1][newRightY+1].color == "none")) {
+            } else if ((rightColor == "black") && (newRightY+1 != 8) && (newX+1 != 8) && (board[newX+1][newRightY+1].color == "none")) {
               possLocations.push([newX+1, newRightY+1]);
             }
           }
